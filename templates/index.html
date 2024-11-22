@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpenseTracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>ExpenseTracker</h1>
+
+        <!-- Transaction Form -->
+        <form id="transactionForm">
+            <label for="date">Date:</label>
+            <input type="date" id="date" required><br>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" required><br>
+
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" step="0.01" required><br>
+
+            <label for="category">Category:</label>
+            <select id="category">
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select><br>
+
+            <button type="submit">Add Transaction</button>
+        </form>
+
+        <!-- Pop-up message for transaction success -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            Transaction added successfully!
+        </div>
+
+
+        <hr>
+
+        <!-- Transaction Summary Section -->
+        <div id="summary">
+            <h3>Transaction Summary</h3>
+            <p><strong>Total Income:</strong> <span id="totalIncome">$0.00</span></p>
+            <p><strong>Total Expense:</strong> <span id="totalExpense">$0.00</span></p>
+            <p><strong>Balance:</strong> <span id="balance">$0.00</span></p>
+        </div>
+
+        <hr>
+
+        <h2>Filter Transactions</h2>
+        <!-- Filter Form -->
+        <form id="filterForm">
+            <label for="filterCategory">Category:</label>
+            <select id="filterCategory">
+                <option value="All">All</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select><br>
+
+            <label for="minAmount">Min Amount:</label>
+            <input type="number" id="minAmount" step="0.01"><br>
+
+            <label for="maxAmount">Max Amount:</label>
+            <input type="number" id="maxAmount" step="0.01"><br>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate"><br>
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate"><br>
+
+            <button type="submit">Filter</button>
+        </form>
+
+        <hr>
+
+        <div class="export-buttons">
+            <a href="/export_csv" id="exportCsv" class="button">Export as CSV</a>
+            <a href="/export_pdf" id="exportPdf" class="button">Export as PDF</a>
+        </div>
+
+        <h2>Transactions</h2>
+        <table id="transactionsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Transactions will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
