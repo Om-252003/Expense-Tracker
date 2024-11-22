@@ -89,5 +89,43 @@ document.getElementById('filterForm').onsubmit = function(e) {
     fetchTransactionSummary();
 };
 
+// script.js - Smooth transition for button clicks
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        // Smooth transition effect (e.g., fading out the page)
+        document.body.style.transition = "opacity 0.5s ease";
+        document.body.style.opacity = "0";
+
+        setTimeout(() => {
+            window.location.href = btn.href;
+        }, 500); // Delay to allow transition effect
+    });
+});
+
+
+// In static/script.js
+
+document.getElementById("transactionForm").addEventListener("submit", function(event) {
+    event.preventDefault();  // Prevent default form submission
+
+    let formData = new FormData(this);  // Get the form data
+
+    fetch("/add_transaction", {
+        method: "POST",
+        body: formData  // Send form data as a POST request
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);  // Show success message
+        document.getElementById("transactionForm").reset();  // Clear form fields
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+});
+
+
+
+
 // Initially load transactions
 loadTransactions();

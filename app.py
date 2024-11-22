@@ -1,9 +1,11 @@
-from flask import Flask, request, render_template, send_file, jsonify
+from flask import send_file, jsonify
 from flask_pymongo import PyMongo
 import csv
 from io import StringIO
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from flask import Flask, render_template, request, redirect, url_for
+from pymongo import MongoClient
 
 app = Flask(__name__)
 
@@ -12,21 +14,41 @@ app.config["MONGO_URI"] = "mongodb://localhost:27017/Expense-Tracker"  # Your Mo
 mongo = PyMongo(app)
 
 
+# MongoDB connection
+client = MongoClient("mongodb://localhost:27017")
+db = client["Expense-Tracker"]
+collection = db["transactions"]
+
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('landing.html')
 
-# Route to add a transaction (simplified)
-@app.route('/add_transaction', methods=['POST'])
+@app.route("/add_transaction", methods=["GET", "POST"])
 def add_transaction():
-    data = request.form
-    mongo.db.transactions.insert_one({
-        "Date": data["date"],
-        "Description": data["description"],
-        "Amount": float(data["amount"]),
-        "Category": data["category"]
-    })
-    return jsonify({"message": "Transaction added successfully!"})
+    if request.method == "POST":
+        date = request.form["date"]
+        description = request.form["description"]
+        amount = float(request.form["amount"])  # Ensure the amount is a float
+        category = request.form["category"]
+
+        # Insert the data into MongoDB
+        collection.insert_one({
+            "Date": date,
+            "Description": description,
+            "Amount": amount,
+            "Category": category
+        })
+
+        return redirect(url_for("add_transaction"))  # Redirect after successful insert
+    return render_template("add_transaction.html")  # Display the form for GET request
+
+
+
+# Route for View Report page
+@app.route('/view_report')
+def view_report():
+    return render_template('view_report.html')  # Create this file
+
 
 
 # Route for exporting as CSV
