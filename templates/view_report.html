@@ -1,22 +1,117 @@
-<!-- view_report.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Report</title>
+    <link rel="stylesheet" href="/static/view_report.css">
 </head>
 <body>
-    <h1>Transaction Summary</h1>
-    <div id="summary">
-        <!-- Summary content will be populated here -->
-        <p>Total Income: $<span id="totalIncome">0.00</span></p>
-        <p>Total Expense: $<span id="totalExpense">0.00</span></p>
-        <p>Balance: $<span id="balance">0.00</span></p>
+    <div class="container">
+        <h1>View Report</h1>
+
+        <div class="filters">
+            <h2>Filters</h2>
+            <form method="POST" action="{{ url_for('view_report') }}">
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" value="{{ request.args.get('start_date') or request.form.get('start_date', '') }}">
+
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" value="{{ request.args.get('end_date') or request.form.get('end_date', '') }}">
+
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="All" {% if (request.args.get('category') or request.form.get('category')) == 'All' %}selected{% endif %}>All</option>
+                    <option value="Income" {% if (request.args.get('category') or request.form.get('category')) == 'Income' %}selected{% endif %}>Income</option>
+                    <option value="Expense" {% if (request.args.get('category') or request.form.get('category')) == 'Expense' %}selected{% endif %}>Expense</option>
+                </select>
+
+                <label for="min_amount">Min Amount:</label>
+                <input type="number" id="min_amount" name="min_amount" value="{{ request.args.get('min_amount') or request.form.get('min_amount', '') }}">
+
+                <label for="max_amount">Max Amount:</label>
+                <input type="number" id="max_amount" name="max_amount" value="{{ request.args.get('max_amount') or request.form.get('max_amount', '') }}">
+
+                <button type="submit">Apply Filters</button>
+            </form>
+        </div>
+
+        <div class="summary">
+            <div class="card">
+                <h3>Total Income</h3>
+                <p>₹{{ total_income }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <p>₹{{ total_expense }}</p>
+            </div>
+            <div class="card">
+                <h3>Balance</h3>
+                <p>₹{{ balance }}</p>
+            </div>
+        </div>
+
+        <!-- Transaction Table -->
+        <div class="transaction-table">
+            <h2>Transactions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.Date }}</td>
+                        <td>{{ transaction.Description }}</td>
+                        <td>{{ transaction.Amount }}</td>
+                        <td>{{ transaction.Category }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-options">
+            <button id="exportCSV">Export as CSV</button>
+            <button id="exportPDF">Export as PDF</button>
+        </div>
+
+        <!-- Graphs Section -->
+        <div class="graphs">
+            <h2>Transaction Graphs</h2>
+            <!-- Bar Chart -->
+            <div>
+                <h3>Bar Chart: Income and Expense</h3>
+                <canvas id="barChart" width="500" height="350"></canvas>
+            </div>
+            <!-- Pie Chart -->
+            <div>
+                <h3>Pie Chart: Distribution of Income and Expense</h3>
+                <canvas id="pieChart" width="500" height="350"></canvas>
+            </div>
+        </div>
+
+
     </div>
-    <h2>Transactions</h2>
-    <div id="transactions">
-        <!-- List of transactions will be shown here -->
-    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+    <!-- Pass data from Flask to JavaScript -->
+    <script>
+        const bar_chart_labels = {{ bar_chart_labels | tojson }};
+        const bar_chart_values = {{ bar_chart_values | tojson }};
+        const pie_chart_data = {{ pie_chart_data | tojson }};
+    </script>
+
+    <script src="/static/view_report.js"></script>
 </body>
 </html>

@@ -4,54 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Transaction</title>
-    <link rel="stylesheet" href="/static/add_transaction.css"> <!-- Ensure your styling file is loaded -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/add_transaction.css"> <!-- Link to the external CSS -->
 </head>
 <body>
-    <div class="form-container">
-        <h1>Add New Transaction</h1>
+    <div class="floating-elements">
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
+    </div>
+
+    <div class="transaction-interface">
         <form id="transactionForm" action="/add_transaction" method="POST">
-            <div class="form-group">
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required><br>
+            <div class="step">
+                <label class="input-label">Transaction Date?</label>
+                <input type="date" class="input-area" name="date" required>
             </div>
 
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <input type="text" id="description" name="description" placeholder="Enter description" required><br>
+            <div class="step">
+                <label class="input-label">What's this transaction for?</label>
+                <input type="text" class="input-area" name="description"
+                       placeholder="Type description here..." required>
             </div>
 
-            <div class="form-group">
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" placeholder="Enter amount" required><br>
+            <div class="step">
+                <label class="input-label">How much?</label>
+                <input type="number" class="input-area" name="amount"
+                       placeholder="Enter amount..." required>
             </div>
 
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select id="category" name="category" required>
-                    <option value="Income">Income</option>
-                    <option value="Expense">Expense</option>
-                </select><br>
+            <div class="step">
+                <label class="input-label">What type of transaction is this?</label>
+                <div class="category-options">
+                    <div class="category-option" onclick="selectCategory('Income')">
+                        <i class="fas fa-arrow-down"></i>
+                        Income
+                    </div>
+                    <div class="category-option" onclick="selectCategory('Expense')">
+                        <i class="fas fa-arrow-up"></i>
+                        Expense
+                    </div>
+                </div>
+                <input type="hidden" id="categoryInput" name="category" required>
             </div>
 
-            <button type="submit" class="submit-btn">Add Transaction</button>
+            <div class="step">
+                <div class="action-buttons">
+                    <button type="submit" class="btn submit-btn">Add Transaction</button>
+                    <button type="button" class="btn view-report-btn" onclick="redirectToReport()">
+                        View Report
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 
-    <div id="popup" class="popup-message">Transaction Added Successfully!</div> <!-- Popup element -->
+    <div class="success-popup" id="popup">Transaction Added Successfully!</div>
 
     <script>
-        document.getElementById("transactionForm").onsubmit = function(event) {
-            event.preventDefault(); // Prevent form submission for now
+        function selectCategory(category) {
+            document.getElementById('categoryInput').value = category;
+            document.querySelectorAll('.category-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
 
+        document.getElementById("transactionForm").onsubmit = function(event) {
+            event.preventDefault();
             const popup = document.getElementById("popup");
-            popup.style.display = "block"; // Show the popup message
+            popup.style.display = "block";
 
             setTimeout(function() {
-                popup.style.display = "none"; // Hide the popup after 3 seconds
+                popup.style.display = "none";
             }, 3000);
 
-            this.submit(); // Submit the form after the popup shows
+            this.submit();
         };
+
+        function redirectToReport() {
+            window.location.href = "/view_report";
+        }
     </script>
 </body>
 </html>

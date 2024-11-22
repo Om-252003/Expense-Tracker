@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ce2a7e9-bbf5-40cb-8441-ab4563e28965" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/static/add_transaction.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/landing.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/add_transaction.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/landing.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/view_report.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/view_report.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/view_report.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/add_transaction.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/add_transaction.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/landing.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/landing.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/add_transaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add_transaction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/landing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/view_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/view_report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +47,7 @@
     "Python.app.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "current-version-update",
+    "git-widget-placeholder": "dynamic-transaction-form",
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>

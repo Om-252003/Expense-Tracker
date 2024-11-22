@@ -1,3 +1,5 @@
+import json
+
 from flask import send_file, jsonify
 from flask_pymongo import PyMongo
 import csv
@@ -43,11 +45,72 @@ def add_transaction():
     return render_template("add_transaction.html")  # Display the form for GET request
 
 
-
-# Route for View Report page
-@app.route('/view_report')
+@app.route('/view_report', methods=['GET', 'POST'])
 def view_report():
-    return render_template('view_report.html')  # Create this file
+    # Get filter parameters from either GET or POST request
+    start_date = request.args.get('start_date') or request.form.get('start_date')
+    end_date = request.args.get('end_date') or request.form.get('end_date')
+    category = request.args.get('category') or request.form.get('category', 'All')
+    min_amount = request.args.get('min_amount') or request.form.get('min_amount', '0')
+    max_amount = request.args.get('max_amount') or request.form.get('max_amount')
+
+    # Build the query
+    query = {}
+    if start_date:
+        query['Date'] = {'$gte': start_date}
+    if end_date:
+        if 'Date' in query:
+            query['Date']['$lte'] = end_date
+        else:
+            query['Date'] = {'$lte': end_date}
+    if category and category != 'All':
+        query['Category'] = category
+    if min_amount:
+        query['Amount'] = {'$gte': float(min_amount)}
+    if max_amount:
+        if 'Amount' in query:
+            query['Amount']['$lte'] = float(max_amount)
+        else:
+            query['Amount'] = {'$lte': float(max_amount)}
+
+    # Fetch transactions
+    transactions = list(collection.find(query))
+
+    # Calculate totals
+    total_income = sum(t['Amount'] for t in transactions if t['Category'] == 'Income')
+    total_expense = sum(t['Amount'] for t in transactions if t['Category'] == 'Expense')
+    balance = total_income - total_expense
+
+    # Prepare chart data
+    bar_chart_data = {}
+    for t in transactions:
+        date = t['Date']
+        if date in bar_chart_data:
+            if t['Category'] == 'Income':
+                bar_chart_data[date] += t['Amount']
+            else:
+                bar_chart_data[date] -= t['Amount']
+        else:
+            if t['Category'] == 'Income':
+                bar_chart_data[date] = t['Amount']
+            else:
+                bar_chart_data[date] = -t['Amount']
+
+    # Sort dates for consistent display
+    sorted_dates = sorted(bar_chart_data.keys())
+    bar_chart_labels = sorted_dates
+    bar_chart_values = [bar_chart_data[date] for date in sorted_dates]
+
+    return render_template(
+        'view_report.html',
+        transactions=transactions,
+        total_income=total_income,
+        total_expense=total_expense,
+        balance=balance,
+        bar_chart_labels=json.dumps(bar_chart_labels),
+        bar_chart_values=json.dumps(bar_chart_values),
+        pie_chart_data=json.dumps([total_income, total_expense])
+    )
 
 
 

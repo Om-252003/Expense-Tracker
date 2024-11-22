@@ -1,53 +1,114 @@
-/* Body and General Layout */
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient background */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+* {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: rgba(15, 15, 15, 0.6);
+    color: white;
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    position: relative;
+}
+
+.floating-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-element {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.8;
+    animation: float 20s infinite;
+}
+
+.element-1 {
+    width: 400px;
+    height: 400px;
+    background: #FF3CAC;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.element-2 {
+    width: 500px;
+    height: 500px;
+    background: #784BA0;
+    top: 40%;
+    right: 15%;
+    animation-delay: -5s;
+}
+
+.element-3 {
+    width: 350px;
+    height: 350px;
+    background: #2B86C5;
+    bottom: 10%;
+    left: 30%;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 50px) rotate(90deg);
+    }
+    50% {
+        transform: translate(0, 100px) rotate(180deg);
+    }
+    75% {
+        transform: translate(-50px, 50px) rotate(270deg);
+    }
+}
+
+.content {
+    position: relative;
+    z-index: 1;
     text-align: center;
+    padding: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 4.5rem;
     font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 50px;
-    animation: fadeIn 2s ease-in-out; /* Animation for the header */
+    margin-bottom: 60px;
+    line-height: 1.2;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    letter-spacing: -1px;
+    animation: slideUp 1s ease-out;
 }
 
-/* Button Styling */
-.button {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-decoration: none;
-    background-color: #fff;
-    color: #ff7e5f;
-    padding: 15px 30px;
-    margin: 10px;
-    border-radius: 50px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
-
-.button:hover {
-    background-color: #ff7e5f;
-    color: #fff;
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Adding a subtle animation effect to the buttons */
-@keyframes fadeIn {
+@keyframes slideUp {
     from {
         opacity: 0;
         transform: translateY(50px);
@@ -58,14 +119,70 @@ h1 {
     }
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+.buttons {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-out 0.5s backwards;
+}
+
+.button {
+    padding: 25px 50px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.button:first-child {
+    background: linear-gradient(45deg, #FF3CAC, #784BA0);
+    border: none;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.button:hover::before {
+    left: 100%;
+}
+
+.button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 768px) {
     h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
+        margin-bottom: 40px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 20px;
     }
 
     .button {
-        font-size: 1rem;
-        padding: 12px 25px;
+        padding: 20px 40px;
+        font-size: 1.2rem;
     }
 }

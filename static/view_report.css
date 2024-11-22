@@ -1,0 +1,198 @@
+/* General styling for the page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Headers */
+h1, h2, h3 {
+    font-family: 'Poppins', sans-serif;
+    color: #2b2b2b;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 28px;
+    color: #4b79a1;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+/* Graphs Section */
+.graphs {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.graphs h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.graphs h3 {
+    font-size: 22px;
+    color: #555;
+    margin: 10px 0;
+}
+
+canvas {
+    margin: 20px auto;
+    display: block;
+    width: 600px !important;
+    height: 400px !important;
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+canvas.visible {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+
+
+
+/* Filters Section */
+.filters {
+    margin-top: 30px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filters form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.filters label {
+    font-size: 16px;
+    color: #444;
+    font-weight: bold;
+}
+
+.filters input, .filters select {
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filters input:focus, .filters select:focus {
+    border-color: #4CAF50;
+}
+
+/* Summary Cards */
+.summary .card {
+    background-color: #fff;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+}
+
+.summary .card:hover {
+    transform: translateY(-8px);
+}
+
+.summary .card h3 {
+    font-size: 20px;
+    color: #333;
+}
+
+.summary .card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Transaction Table */
+.transaction-table table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.transaction-table th {
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.transaction-table td {
+    color: #777;
+}
+
+/* Export buttons */
+.export-options {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.export-options button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.export-options button:hover {
+    background-color: #45a049;
+}
+
+/* Mobile responsive styling */
+@media (max-width: 768px) {
+    .graphs {
+        flex-direction: column;
+        align-items: center;
+    }
+    .filters form {
+        flex-direction: column;
+    }
+    .transaction-table table {
+        font-size: 12px;
+    }
+}
